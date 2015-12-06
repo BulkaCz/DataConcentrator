@@ -10,30 +10,34 @@ namespace DataConcentrator
 {
     class SendDataToSQL
     {
-        string connectionString;
-        ElektromerDataType elektromer;
+        private string connectionString;
+        private SendDataToSQLResult result = new SendDataToSQLResult();
+        private ElektromerDataType elektromer;
 
         public SendDataToSQL(string _connectionString)
         {
             connectionString = _connectionString;
         }
 
-        public int Send(ElektromerDataType elektromer)
+        public SendDataToSQLResult Send(ElektromerDataType elektromer)
         {
-            int result = 0;
-            Console.WriteLine("Navazuji spojeni ...");
+            result.exceptionMessage = "All OK :)";
+            result.success = false;
+            result.rowsSended = 0;
+
             try
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
-                sqlConnection.Open();
-                Console.WriteLine("Spojeni navazano :) ");
-
                 SqlDataAdapter da = new SqlDataAdapter();
-                da.InsertCommand = sqlConnection.CreateCommand();
+                DataSet ds = new DataSet();
+                DataRow dr;
+
+                sqlConnection.Open();
 
                 da.SelectCommand = sqlConnection.CreateCommand();
                 da.SelectCommand.CommandText = "SELECT * FROM Elektromer";
 
+                da.InsertCommand = sqlConnection.CreateCommand();
                 da.InsertCommand.CommandText = "INSERT INTO Elektromer (id, cas, cinnaEnergie, jalovaEnergie, cinnyVykon, jalovyVykon, ucinnik) VALUES (@id, @cas, @cinnaEnergie, @jalovaEnergie, @cinnyVykon, @jalovyVykon, @ucinnik)";
                 da.InsertCommand.Parameters.Add("@id", SqlDbType.Int, 4, "id");
                 da.InsertCommand.Parameters.Add("@cas", SqlDbType.DateTime2, 8, "cas");
@@ -43,26 +47,27 @@ namespace DataConcentrator
                 da.InsertCommand.Parameters.Add("@jalovyVykon", SqlDbType.Real, 4, "jalovyVykon");
                 da.InsertCommand.Parameters.Add("@ucinnik", SqlDbType.Real, 4, "ucinnik");
 
-                DataSet ds = new DataSet();
                 da.Fill(ds);
                 sqlConnection.Close();
 
-                DataRow dr = ds.Tables[0].NewRow();
+                dr = ds.Tables[0].NewRow();
                 dr["id"] = elektromer.idMericihoBodu;
-                dr["cas"] = DateTime.Now;
+                dr["cas"] = elektromer.cas;
                 dr["cinnaEnergie"] = elektromer.cinnaEnergie;
                 dr["jalovaEnergie"] = elektromer.jalovaEnergie;
                 dr["cinnyVykon"] = elektromer.cinnyVykon;
                 dr["jalovyVykon"] = elektromer.jalovyVykon;
                 dr["ucinnik"] = elektromer.ucinnik;
                 ds.Tables[0].Rows.Add(dr);
-                da.Update(ds);
-                result = 1;
+                result.rowsSended = da.Update(ds);
+                result.success = true;
             }
 
             catch(Exception ex)
             {
-                result = 0;
+                result.success = false;
+                result.exceptionMessage = ex.Message;
+                Console.WriteLine(ex.Message);
             }
 
             return result;
