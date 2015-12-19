@@ -1,33 +1,71 @@
 ﻿using System;
+using System.Timers;
+using System.IO.Ports;
 using System.Collections.Generic;
-//using System.Linq;
 using System.Text;
-//using System.Threading.Tasks;
+using System.Configuration;
 
 namespace DataConcentrator
 {
     class Program
     {
+        static string connectionString;
+        static int port1_ID;
+        static byte port1Device;
+        static SerialPort sp1;
+        static SerialPort sp2;
+        static Timer port1Timer;
+        static Timer port2Timer;
+        static ModbusMaster modbusMaster1;
+        static ModbusMaster modbusMaster2;
+        static SendDataToSQLResult port1_SQLresult = new SendDataToSQLResult();
+        static SendDataToSQLResult port2_SQLresult = new SendDataToSQLResult();
+        static ElektromerDataType elektromer = new ElektromerDataType();
+
+        enum Device { Elektromer, Vaha, Popelomer };
+
         static void Main(string[] args)
         {
-            string connectionString = "Server=tcp:cevelsql.database.windows.net,1433; Database=CevelDB; User ID=BulkaCz@cevelsql; Password=Hovnohovno11; Trusted_Connection=False; Encrypt=True; Connection Timeout=2;";
-            //string connectionString = "Server=tcp:cevelsql.database.windows.net,1433; Database=CevelSQL; User ID=BulkaCz@cevelsql; Password=Hovnohovno11; Encrypt=True; TrustServerCertificate=False; Connection Timeout=10;";
-            //string connectionString = "Data Source=DESKTOP-OKII9AL\\SQLEXPRESS;Initial Catalog = CevelSQL; Integrated Security = True; Connection Timeout=3";
-            ElektromerDataType elektromer = new ElektromerDataType();
-            SendDataToSQLResult result = new SendDataToSQLResult();
-            elektromer.idMericihoBodu = 1;
-            elektromer.cas = DateTime.Now;
-            elektromer.cinnaEnergie = 111.0f;
-            elektromer.jalovaEnergie = 222.0f;
-            elektromer.cinnyVykon = 33.0f;
-            elektromer.jalovyVykon = 44.0f;
-            elektromer.ucinnik = 0.99f;
-            SendDataToSQL sendDataToSQL = new SendDataToSQL(connectionString);
-            result = sendDataToSQL.Send(elektromer);
-            Console.WriteLine(result.exceptionMessage);
-            Console.WriteLine(result.success.ToString());
-            Console.WriteLine(result.rowsSended.ToString());
+            connectionString = ConfigurationSettings.AppSettings["ConnectionString"];
+            string p1Enabled = ConfigurationSettings.AppSettings["Port1_Enabled"];
+            bool port1Enabled = Boolean.Parse(p1Enabled);
+            string p2Enabled = ConfigurationSettings.AppSettings["Port2_Enabled"];
+            bool port2Enabled = Boolean.Parse(p2Enabled);
+            if (port1Enabled)
+            {         
+                int port1PollInterval = Int32.Parse(ConfigurationSettings.AppSettings["Port1_PollInterval"]);
+                port1Timer = new Timer(port1PollInterval);
+                port1Timer.AutoReset = false;
+                sp1 = new SerialPort();
+                port1Device = SerialPortConfiguration.SerialPort1Configuration(ref sp1);
+                modbusMaster1 = new ModbusMaster(ref sp1);
+                port1_ID = Int32.Parse(ConfigurationSettings.AppSettings["Port1_DeviceID"]);
+                port1Timer.Elapsed += new ElapsedEventHandler(Port1TimerTick);
+                port1Timer.Start();             
+            }
+            if (port2Enabled)
+            {
+                byte port2Device = SerialPortConfiguration.SerialPort2Configuration(ref sp2);
+            }
+
             Console.ReadLine();
+        }
+
+        private static void Port1TimerTick(object source, ElapsedEventArgs e)
+        {
+            switch (port1Device)
+            {
+                case 1:
+                    elektromer = modbusMaster1.RequestElektromer();
+                    elektromer.idMericihoBodu = port1_ID;
+                    SendElektromerToSQL sendElektromerToSQL = new SendElektromerToSQL(connectionString);
+                    port1_SQLresult = sendElektromerToSQL.Send(elektromer);
+                    port1Timer.Start();
+                    break;
+                default:
+                    port1Timer.Start();
+                    break;
+            }
         }
     }
 }

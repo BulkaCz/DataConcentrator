@@ -15,5 +15,6 @@ namespace DataConcentrator
         public float cinnyVykon;
         public float jalovyVykon;
         public float ucinnik;
+        public int errorCode;
     }
 }

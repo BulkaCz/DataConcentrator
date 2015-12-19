@@ -8,13 +8,12 @@ using System.Data.SqlClient;
 
 namespace DataConcentrator
 {
-    class SendDataToSQL
+    class SendElektromerToSQL
     {
         private string connectionString;
         private SendDataToSQLResult result = new SendDataToSQLResult();
-        private ElektromerDataType elektromer;
 
-        public SendDataToSQL(string _connectionString)
+        public SendElektromerToSQL(string _connectionString)
         {
             connectionString = _connectionString;
         }
@@ -38,9 +37,10 @@ namespace DataConcentrator
                 da.SelectCommand.CommandText = "SELECT * FROM Elektromer";
 
                 da.InsertCommand = sqlConnection.CreateCommand();
-                da.InsertCommand.CommandText = "INSERT INTO Elektromer (id, cas, cinnaEnergie, jalovaEnergie, cinnyVykon, jalovyVykon, ucinnik) VALUES (@id, @cas, @cinnaEnergie, @jalovaEnergie, @cinnyVykon, @jalovyVykon, @ucinnik)";
+                da.InsertCommand.CommandText = "INSERT INTO Elektromer (id, cas, errorCode, cinnaEnergie, jalovaEnergie, cinnyVykon, jalovyVykon, ucinnik) VALUES (@id, @cas, @errorCode, @cinnaEnergie, @jalovaEnergie, @cinnyVykon, @jalovyVykon, @ucinnik)";
                 da.InsertCommand.Parameters.Add("@id", SqlDbType.Int, 4, "id");
                 da.InsertCommand.Parameters.Add("@cas", SqlDbType.DateTime2, 8, "cas");
+                da.InsertCommand.Parameters.Add("@errorCode", SqlDbType.Int, 4, "errorCode");
                 da.InsertCommand.Parameters.Add("@cinnaEnergie", SqlDbType.Real, 4, "cinnaEnergie");
                 da.InsertCommand.Parameters.Add("@jalovaEnergie", SqlDbType.Real, 4, "jalovaEnergie");
                 da.InsertCommand.Parameters.Add("@cinnyVykon", SqlDbType.Real, 4, "cinnyVykon");
@@ -53,6 +53,7 @@ namespace DataConcentrator
                 dr = ds.Tables[0].NewRow();
                 dr["id"] = elektromer.idMericihoBodu;
                 dr["cas"] = elektromer.cas;
+                dr["errorCode"] = elektromer.errorCode;
                 dr["cinnaEnergie"] = elektromer.cinnaEnergie;
                 dr["jalovaEnergie"] = elektromer.jalovaEnergie;
                 dr["cinnyVykon"] = elektromer.cinnyVykon;
@@ -67,9 +68,9 @@ namespace DataConcentrator
             {
                 result.success = false;
                 result.exceptionMessage = ex.Message;
+                Logging.Write(DateTime.Now.ToString() + " " + ex.Message);
                 Console.WriteLine(ex.Message);
             }
-
             return result;
         }
     }
