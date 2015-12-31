@@ -13,14 +13,18 @@ namespace DataConcentrator
         {
             try
             {
-                StreamWriter log = new StreamWriter("log.txt", true);
+                string date = DateTime.Now.ToShortDateString().Replace('.', '-');
+                StreamWriter log = new StreamWriter("C:\\Users\\Bulka\\Source\\Repos\\DataConcentrator\\" + date + ".log", true);
                 log.WriteLine(zaznam);
                 log.Close();
+                DateTime datetime = DateTime.Now;
+                Console.WriteLine(date);         
             }
             catch(Exception ex)
             {
 
             }
+
         }
     }
 }

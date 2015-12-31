@@ -1,0 +1,32 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="DataConcentrator.master.cs" Inherits="DataConcentratorWEB.DataConcentrator" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:Button ID="btnElmer" runat="server" OnClick="Button1_Click" Text="Elektroměry" />
+      
+        <asp:Button ID="btnVahy" runat="server" OnClick="btnVahy_Click" Text="Váhy" />
+        <asp:Button ID="btnConf" runat="server" OnClick="btnConf_Click" Text="Nastavení" />
+        <asp:Button ID="btnLogs" runat="server" OnClick="btnLogs_Click" Text="Logy" />
+      
+    <div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+            
+        
+            
+        
+            
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+</body>
+</html>

@@ -12,7 +12,7 @@ namespace DataConcentrator
     {
         enum Device { Elektromer, Vaha, Popelomer, None };
 
-        public static byte SerialPort1Configuration(ref SerialPort _sp1)
+        public static string SerialPort1Configuration(ref SerialPort _sp1)
         {
             _sp1 = new SerialPort();
             int port1_BaudRate = Int32.Parse(ConfigurationSettings.AppSettings["Port1_BaudRate"]);
@@ -34,10 +34,10 @@ namespace DataConcentrator
             else if (port1_StopBit == 2) _sp1.StopBits = StopBits.Two;
             else _sp1.StopBits = StopBits.One;
 
-            return Byte.Parse(ConfigurationSettings.AppSettings["Port1_Device"]);
+            return ConfigurationSettings.AppSettings["Port1_Device"];
         }
 
-        public static byte SerialPort2Configuration(ref SerialPort _sp2)
+        public static string SerialPort2Configuration(ref SerialPort _sp2)
         {
             _sp2 = new SerialPort();
             int port2_BaudRate = Int32.Parse(ConfigurationSettings.AppSettings["Port2_BaudRate"]);
@@ -59,7 +59,7 @@ namespace DataConcentrator
             else if (port2_StopBit == 2) _sp2.StopBits = StopBits.Two;
             else _sp2.StopBits = StopBits.One;
 
-            return Byte.Parse(ConfigurationSettings.AppSettings["Port2_Device"]);
+            return ConfigurationSettings.AppSettings["Port2_Device"];
         }
     }
 }

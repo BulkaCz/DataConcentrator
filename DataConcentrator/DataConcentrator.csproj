@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DataConcentrator</RootNamespace>
     <AssemblyName>DataConcentrator</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -46,15 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ElektromerDataType.cs" />
-    <Compile Include="ElektromerPolls.cs" />
+    <Compile Include="Devices\Vaha\SendVahaToSQL.cs" />
+    <Compile Include="Devices\Vaha\VahaPolls.cs" />
+    <Compile Include="Devices\Vaha\VahaDataType.cs" />
+    <Compile Include="Devices\Elektromer\ElektromerDataType.cs" />
+    <Compile Include="Devices\Elektromer\ElektromerPolls.cs" />
     <Compile Include="Logging.cs" />
-    <Compile Include="ModbusMaster.cs" />
-    <Compile Include="ModbusPolls.cs" />
+    <Compile Include="ModbusRTUMaster.cs" />
+    <Compile Include="Devices\ModbusPolls.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SendElektromerToSQL.cs" />
-    <Compile Include="SendDataToSQLResult.cs" />
+    <Compile Include="Devices\Elektromer\SendElektromerToSQL.cs" />
+    <Compile Include="Devices\SendDataToSQLResult.cs" />
     <Compile Include="SerialPortConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
