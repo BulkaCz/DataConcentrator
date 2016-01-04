@@ -22,14 +22,24 @@ namespace DataConcentratorWEB
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            ddlPort1Name.Items.Clear();
+            /*ddlPort1Name.Items.Clear();
             ddlPort2Name.Items.Clear();
 
             foreach (string s in SerialPort.GetPortNames())
             {             
                 ddlPort1Name.Items.Add(s);
                 ddlPort2Name.Items.Add(s);
-            }
+            }*/
+
+            ddlPort1Name.Items.Add("COM1");
+            ddlPort1Name.Items.Add("COM2");
+            ddlPort1Name.Items.Add("COM3");
+            ddlPort1Name.Items.Add("COM4");
+
+            ddlPort2Name.Items.Add("COM1");
+            ddlPort2Name.Items.Add("COM2");
+            ddlPort2Name.Items.Add("COM3");
+            ddlPort2Name.Items.Add("COM4");
         }
 
         protected void btnSaveConfig_Click(object sender, EventArgs e)
@@ -87,8 +97,7 @@ namespace DataConcentratorWEB
         private void LoadConfigFile()
         {
             XmlDocument config = new XmlDocument();
-            config.Load("C:\\Users\\Bulka\\Source\\Repos\\DataConcentrator\\DataConcentrator\\bin\\Debug\\DataConcentrator.exe.config");
-            //config.Load(@"..\DataConcentrator\bin\Debug\DataConcentrator.exe.config");
+            config.Load("C:\\Users\\Bulka\\Downloads\\DataConcentrator_160103\\DataConcentrator\\DataConcentrator\\bin\\Debug\\DataConcentrator.exe.config");
             XmlNode node = config.SelectSingleNode("//appSettings");
             foreach (XmlNode xnn in node.ChildNodes)
             {
@@ -119,7 +128,7 @@ namespace DataConcentratorWEB
         private static void WriteSetting(string key, string value)
         {
             XmlDocument doc = new XmlDocument();
-            doc.Load("C:\\Users\\Bulka\\Source\\Repos\\DataConcentrator\\DataConcentrator\\bin\\Debug\\DataConcentrator.exe.config");
+            doc.Load("C:\\Users\\Bulka\\Downloads\\DataConcentrator_160103\\DataConcentrator\\DataConcentrator\\bin\\Debug\\DataConcentrator.exe.config");
             XmlNode node = doc.SelectSingleNode("//appSettings");
             if (node == null)
                 throw new InvalidOperationException("appSettings section not found in config file.");
@@ -139,7 +148,7 @@ namespace DataConcentratorWEB
                     elem.SetAttribute("value", value);
                     node.AppendChild(elem);
                 }
-                doc.Save("C:\\Users\\Bulka\\Source\\Repos\\DataConcentrator\\DataConcentrator\\bin\\Debug\\DataConcentrator.exe.config");
+                doc.Save("C:\\Users\\Bulka\\Downloads\\DataConcentrator_160103\\DataConcentrator\\DataConcentrator\\bin\\Debug\\DataConcentrator.exe.config");
             }
             catch
             {

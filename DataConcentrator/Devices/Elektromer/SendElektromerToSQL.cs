@@ -61,6 +61,9 @@ namespace DataConcentrator
                 dr["ucinnik"] = elektromer.ucinnik;
                 ds.Tables[0].Rows.Add(dr);
                 result.rowsSended = da.Update(ds);
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine(DateTime.Now.ToString() + " Úspěšný zápis dat z elektroměru do SQL");
+                Console.ForegroundColor = ConsoleColor.Gray;
                 result.success = true;
             }
 
@@ -69,7 +72,9 @@ namespace DataConcentrator
                 result.success = false;
                 result.exceptionMessage = ex.Message;
                 Logging.Write(DateTime.Now.ToString() + " " + ex.Message);
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.Gray;
             }
             return result;
         }

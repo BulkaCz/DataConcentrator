@@ -30,7 +30,7 @@ namespace DataConcentratorWEB
         private void ShowLogs()
         {
             lbLogs.Items.Clear();
-            string[] logs = File.ReadAllLines("C:\\Users\\Bulka\\Source\\Repos\\DataConcentrator\\" + ddlConfigFiles.SelectedValue + ".log");
+            string[] logs = File.ReadAllLines("C:\\Users\\Bulka\\Downloads\\DataConcentrator_160103\\DataConcentrator\\" + ddlConfigFiles.SelectedValue + ".log");
             foreach (string s in logs)
             {
                 lbLogs.Items.Add(s);
@@ -39,7 +39,7 @@ namespace DataConcentratorWEB
 
         private void SearchFiles()
         {
-            string[] fileInfo = Directory.GetFiles("C:\\Users\\Bulka\\Source\\Repos\\DataConcentrator\\", "*.log");
+            string[] fileInfo = Directory.GetFiles("C:\\Users\\Bulka\\Downloads\\DataConcentrator_160103\\DataConcentrator\\", "*.log");
 
             foreach (string s in fileInfo)
             {

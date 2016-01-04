@@ -69,7 +69,6 @@
     <Content Include="Configuration.aspx" />
     <Content Include="packages.config" />
     <Content Include="DataConcentrator.Master" />
-    <Content Include="DataConcentrator.exe.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

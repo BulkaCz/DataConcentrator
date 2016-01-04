@@ -19,7 +19,15 @@ namespace DataConcentrator
             master = ModbusSerialMaster.CreateRtu(sp);
             master.Transport.ReadTimeout = 1000;
             master.Transport.Retries = 0;
-            sp.Open();
+            try
+            {
+                sp.Open();
+            }
+            catch (Exception ex)
+            {
+                Logging.Write(DateTime.Now.ToString() + " "+ ex.Message);
+            }
+
         }
   
         public ElektromerDataType RequestElektromer()
@@ -33,7 +41,7 @@ namespace DataConcentrator
             catch (Exception ex)
             {
                 ModbusExceptionElektromer(ex);
-                Logging.Write(DateTime.Now.ToString() + " " + ex.Message);
+                //Logging.Write(DateTime.Now.ToString() + " " + ex.Message);
             }
             elektromerData = ResultToElektromer(result);
             return elektromerData;
@@ -50,7 +58,7 @@ namespace DataConcentrator
             catch (Exception ex)
             {
                 ModbusExceptionVaha(ex);
-                Logging.Write(DateTime.Now.ToString() + " " + ex.Message);
+                //Logging.Write(DateTime.Now.ToString() + " " + ex.Message);
             }
             vahaData = ResultToVaha(result);
             return vahaData;
@@ -108,7 +116,7 @@ namespace DataConcentrator
             if (ex.Source.Equals("System"))
             {
                 vahaData.errorCode = -1;
-                Logging.Write(DateTime.Now.ToString() + " " + "Elektromer Modbus Timeout");
+                Logging.Write(DateTime.Now.ToString() + " " + "Vaha Modbus Timeout");
             }
             else if (ex.Source.Equals("Modbus"))
             {

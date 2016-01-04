@@ -14,11 +14,14 @@ namespace DataConcentrator
             try
             {
                 string date = DateTime.Now.ToShortDateString().Replace('.', '-');
-                StreamWriter log = new StreamWriter("C:\\Users\\Bulka\\Source\\Repos\\DataConcentrator\\" + date + ".log", true);
+                //date = date.Replace('/', '-');
+                StreamWriter log = new StreamWriter("C:\\Users\\Bulka\\Downloads\\DataConcentrator_160103\\DataConcentrator\\" + date + ".log", true);
                 log.WriteLine(zaznam);
                 log.Close();
                 DateTime datetime = DateTime.Now;
-                Console.WriteLine(date);         
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(zaznam);
+                Console.ForegroundColor = ConsoleColor.Gray;
             }
             catch(Exception ex)
             {

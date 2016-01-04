@@ -75,7 +75,7 @@ namespace DataConcentrator
                     port1_SQLresult = sendElektromerToSQL.Send(elektromer);
                     port1Timer.Start();
                     break;
-                case "Vahy":
+                case "Vaha":
                     vaha = modbusMaster1.RequestVaha();
                     vaha.idMericihoBodu = port1_ID;
                     SendVahaToSQL sendVahaToSQL = new SendVahaToSQL(connectionString);
@@ -102,7 +102,7 @@ namespace DataConcentrator
                     port2_SQLresult = sendElektromerToSQL.Send(elektromer);
                     port2Timer.Start();
                     break;
-                case "Vahy":
+                case "Vaha":
                     vaha = modbusMaster2.RequestVaha();
                     vaha.idMericihoBodu = port2_ID;
                     SendVahaToSQL sendVahaToSQL = new SendVahaToSQL(connectionString);

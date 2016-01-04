@@ -54,8 +54,8 @@
             </td>
             <td class="auto-style1">
                 <asp:DropDownList ID="ddlPort1Typ" runat="server" AutoPostBack="True" Width="150px">
-                    <asp:ListItem Value="1">Elektroměr</asp:ListItem>
-                    <asp:ListItem Value="2">Váha</asp:ListItem>
+                    <asp:ListItem Value="Elektromer">Elektroměr</asp:ListItem>
+                    <asp:ListItem Value="Vaha">Váha</asp:ListItem>
                 </asp:DropDownList>
             </td>
             <td class="auto-style1"></td>
@@ -64,8 +64,8 @@
             </td>
             <td class="auto-style1">
                 <asp:DropDownList ID="ddlPort2Typ" runat="server" AutoPostBack="True" Width="150px">
-                    <asp:ListItem Value="1">Elektroměr</asp:ListItem>
-                    <asp:ListItem Value="2">Váha</asp:ListItem>
+                    <asp:ListItem Value="Elektromer">Elektroměr</asp:ListItem>
+                    <asp:ListItem Value="Vaha">Váha</asp:ListItem>
                 </asp:DropDownList>
             </td>
         </tr>
